@@ -12,7 +12,7 @@ _start:
     la t0,n
     ld a2,0(t0)
     la a3,arr
-    jal ra,max
+    jal ra,radixsort
 exit:
     li a7, 93
     ecall
@@ -47,4 +47,13 @@ endif1:
     addi t3,t3,1 #i++
     blt t3,a2,loop1 #i<n
 endloop1:
+    ret
+
+radixsort:  #a2=n #a3=array address
+    addi sp,sp,-8
+    sd ra,0(sp)
+    jal ra,max
+    ld ra,0(sp)
+    addi sp,sp,+8    
+
     ret
