@@ -11,8 +11,7 @@
 _start:
     la t0,n
     ld a2,0(t0)
-    la t0,arr
-    ld a3,0(t0)
+    la a3,arr
     jal ra,max
 exit:
     li a7, 93
@@ -25,7 +24,7 @@ li t3,0     #i
 loop1: 
     li t0,8
     mul t1,t3,t0 #offset
-    add t0,a0,t1 #address of arr[i]
+    add t0,a3,t1 #address of arr[i]
     ld t2,0(t0)  #arr[i]
 
     beq t3,zero,then1 #if first iteraction
