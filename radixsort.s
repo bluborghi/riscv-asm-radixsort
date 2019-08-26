@@ -1,11 +1,12 @@
+.equ bytes,4
 .global _start
 
 .section .data
     #arr: .dword 170, 45, 75, 90, 802, 24, 2, 66
-    arr: .dword 24,21,44
-    tmp: .dword 0,0,0
-    n: .dword 3
-    count: .dword 0,0,0,0,0,0,0,0,0
+    arr: .word 240,29,44
+    tmp: .word 0,0,0
+    n: .word 3
+    count: .word 0,0,0,0,0,0,0,0,0,0
 
 .section .text
 
@@ -17,6 +18,132 @@ _start:
     la a3,arr
     jal ra,radixsort
 exit:
+    nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+
+
     li a7, 93
     ecall
 
@@ -25,10 +152,10 @@ max:
 #a2=n #a3=array address #a0=max #a1=max address
 li t3,0     #i
 loop1: 
-    li t0,8
+    li t0,bytes
     mul t1,t3,t0 #offset
     add t0,a3,t1 #address of arr[i]
-    ld t2,0(t0)  #arr[i]
+    lw t2,0(t0)  #arr[i]
 
     beq t3,zero,then1 #if first iteraction
     j else1 #if max is already initialized
@@ -84,22 +211,22 @@ countingsort: #a2=n #a3=array address #a4=exp
     li t0,0 #i=0
 
 loop3:
-    li t1,8
+    li t1,bytes
     mul t1,t0,t1 #offset from arr[0] to arr[i]
     add t2,a3,t1 #t2 = address of arr[i]
-    ld t3,0(t2)  #t3 = arr[i]
+    lw t3,0(t2)  #t3 = arr[i]
 
     # count[ (arr[i]/exp)%10 ]++; 
     div t4,t3,a4
     li t1,10
     rem t4,t4,t1 #t4 = (arr[i]/exp)%10 //index of count array
-    la a5,count #a5 = count array address
-    li t1,8
+    la a5,count  #a5 = count array address
+    li t1,bytes
     mul t1,t4,t1 #offset from count[0] to count[t4]
     add t5,a5,t1 #t5 = address of count[t4]
-    ld t6,0(t5)  #t6 = count[t4]
+    lw t6,0(t5)  #t6 = count[t4]
     addi t6,t6,1 #t6 = t6 + 1
-    sd t6,0(t5)  #count[t4] = count[t4] + 1
+    sw t6,0(t5)  #count[t4] = count[t4] + 1
 
     addi t0,t0,1
     blt t0,a2,loop3
