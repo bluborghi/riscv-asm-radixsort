@@ -3,7 +3,7 @@
 
 .section .data
     #arr: .dword 170, 45, 75, 90, 802, 24, 2, 66
-    arr: .word 240,29,44
+    arr: .word 742,534,61
     tmp: .word 0,0,0
     n: .word 3
     count: .word 0,0,0,0,0,0,0,0,0,0
@@ -208,8 +208,21 @@ endloop2:
 
 
 countingsort: #a2=n #a3=array address #a4=exp
-    li t0,0 #i=0
+    #int count[10] = {0}
+    li t0,0     #i
+    li t3,10    #n
+    la t1,count
+loop5:
+    li t2, bytes
+    mul t2,t0,t2    #t2 = offset
+    add t2,t1,t2    #t2 = addr of count[i]
+    sw  zero,0(t2)  #count[i] = 0
 
+    addi t0,t0,1    #i++
+    blt t0,t3,loop5 #i<n
+endloop5:
+
+    li t0,0 #i=0
 loop3:
     li t1,bytes
     mul t1,t0,t1 #offset from arr[0] to arr[i]
@@ -233,5 +246,27 @@ loop3:
 endloop3:
 
 
+#for (i = 1; i < 10; i++) 
+#		count[i] += count[i - 1]; 
+    li t0,1 #i=1
+loop4:
+    la a5,count  #a5 = count array address
+    li t1,bytes
+    addi t0,t0,-1   #t0 = i-1
+    mul t1,t0,t1    #offset from count[0] to count[i-1]
+    add t2,a5,t1    #t2 = address of count[i-1]
+    lw t4,0(t2)     #t4 = count[i-1]
+    addi t0,t0,+1   #t0 = i
+    li t1,bytes
+    mul t1,t0,t1    #offset from count[0] to count[i]
+    add t2,a5,t1    #t2 = address of count[i]
+    lw t3,0(t2)     #t3 = count[i]
+    add t3,t3,t4   #t3 = count[i] + count[i - 1]; 
+    sw t3,0(t2)     #count[i] = t3
+
+    addi t0,t0,1
+    li t1,10
+    blt t0,t1,loop4
+endloop4:
 
     ret

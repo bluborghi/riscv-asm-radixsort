@@ -2,6 +2,13 @@
 #include<iostream> 
 using namespace std; 
 
+// A utility function to print an array 
+void print(int arr[], int n) 
+{ 
+	for (int i = 0; i < n; i++) 
+		cout << arr[i] << " "; 
+} 
+
 // A utility function to get maximum value in arr[] 
 int getMax(int arr[], int n) 
 { 
@@ -23,11 +30,14 @@ void countSort(int arr[], int n, int exp)
 	for (i = 0; i < n; i++) 
 		count[ (arr[i]/exp)%10 ]++; 
 
+	print(count, 10); 
+	cout<<endl;
 	// Change count[i] so that count[i] now contains actual 
 	// position of this digit in output[] 
 	for (i = 1; i < 10; i++) 
 		count[i] += count[i - 1]; 
-
+	print(count, 10); 
+	cout<<endl;
 	// Build the output array 
 	for (i = n - 1; i >= 0; i--) 
 	{ 
@@ -69,18 +79,12 @@ void radixsort_debug(int arr[], int n)
 	}
 } 
 
-// A utility function to print an array 
-void print(int arr[], int n) 
-{ 
-	for (int i = 0; i < n; i++) 
-		cout << arr[i] << " "; 
-} 
 
 // Driver program to test above functions 
 int main() 
 { 
-	int arr[] = {170, 45, 75, 90, 802, 24, 2, 66}; 
-	//int arr[] = {24,21,44}; 
+	//int arr[] = {170, 45, 75, 90, 802, 24, 2, 66}; 
+	int arr[] = {742,534,61}; 
 	int n = sizeof(arr)/sizeof(arr[0]); 
 	radixsort_debug(arr, n); 
 	print(arr, n); 
