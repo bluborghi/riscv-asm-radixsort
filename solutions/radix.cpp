@@ -51,8 +51,22 @@ void radixsort(int arr[], int n)
 	// Do counting sort for every digit. Note that instead 
 	// of passing digit number, exp is passed. exp is 10^i 
 	// where i is current digit number 
-	for (int exp = 1; m/exp > 0; exp *= 10) 
+	for (int exp = 1; m >= exp; exp *= 10) 
 		countSort(arr, n, exp); 
+} 
+
+void radixsort_debug(int arr[], int n) 
+{ 
+	// Find the maximum number to know number of digits 
+	int m = getMax(arr, n); 
+
+	// Do counting sort for every digit. Note that instead 
+	// of passing digit number, exp is passed. exp is 10^i 
+	// where i is current digit number 
+	for (int exp = 1; m >= exp; exp *= 10) {
+		cout<<"exp="<<exp<<"\t\tmax="<<m<<"    "<<endl;
+		countSort(arr, n, exp); 
+	}
 } 
 
 // A utility function to print an array 
@@ -66,8 +80,12 @@ void print(int arr[], int n)
 int main() 
 { 
 	int arr[] = {170, 45, 75, 90, 802, 24, 2, 66}; 
+	//int arr[] = {24,21,44}; 
 	int n = sizeof(arr)/sizeof(arr[0]); 
-	radixsort(arr, n); 
+	radixsort_debug(arr, n); 
 	print(arr, n); 
+	cout<<endl;
 	return 0; 
 } 
+
+
