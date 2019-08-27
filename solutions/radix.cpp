@@ -83,10 +83,10 @@ void radixsort_debug(int arr[], int n)
 // Driver program to test above functions 
 int main() 
 { 
-	//int arr[] = {170, 45, 75, 90, 802, 24, 2, 66}; 
-	int arr[] = {742,534,61}; 
+	int arr[] = {170, 45, 75, 90, 802, 69, 4, 20}; 
+	//int arr[] = {27,552,36}; 
 	int n = sizeof(arr)/sizeof(arr[0]); 
-	radixsort_debug(arr, n); 
+	radixsort(arr, n); 
 	print(arr, n); 
 	cout<<endl;
 	return 0; 
