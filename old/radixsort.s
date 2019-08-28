@@ -1,9 +1,33 @@
 .equ bytes,4
+.global _start
 
 .section .data
+    arr: .word 170, 45, 75, 90, 802, 69, 4, 20
+    output: .word 0,0,0,0,0,0,0,0
+    n: .word 8
     count: .word 0,0,0,0,0,0,0,0,0,0
 
 .section .text
+
+
+
+_start:
+    la t0,n
+    ld a2,0(t0)
+    la a3,arr
+    jal ra,radixsort
+exit:
+
+    li t0,0        #radixsort completed ---- check x/8d &arr for output
+    li t1,100      #radixsort completed ---- check x/8d &arr for output
+wait:
+    addi t0,t0,1   #radixsort completed ---- check x/8d &arr for output
+    blt t0,t1,wait #radixsort completed ---- check x/8d &arr for output
+
+    li a7, 93
+    ecall
+
+
 max:
 #a2=n #a3=array address #a0=max #a1=max address
 li t3,0     #i
@@ -29,12 +53,13 @@ then2:
     addi a1,t0,0
 endif2:
 endif1:
+    
     addi t3,t3,1 #i++
     blt t3,a2,loop1 #i<n
 endloop1:
     ret
 
-radixsort:  #a2=n #a3=input array address 
+radixsort:  #a2=n #a3=array address
     addi sp,sp,-8
     sd ra,0(sp)
     jal ra,max
@@ -43,18 +68,7 @@ radixsort:  #a2=n #a3=input array address
     
     #for (int exp = 1; max >= exp; exp *= 10) 
 	#	countSort(arr, n, exp); 
-    addi sp,sp,-24
-    sd s0,0(sp)
-    sd s1,8(sp)
-    sd s2,16(sp)
-
-    li t0, bytes
-    mul s2, t0, a2  #s2 = byte length of tmp array
-    li t0, -1
-    mul t1, s2, t0  #t1 = -s2
-    add sp,sp,t1    #sp = sp - s2
-    addi a6,sp,0   #passing tmp array address to countingsort
-
+    
     addi s0,a0,0    #s0 = max
     li s1,1         #s1 = exp
 loop2:
@@ -70,17 +84,10 @@ loop2:
     mul s1,s1,t0
     bge s0,s1,loop2    
 endloop2:
-
-    add sp,sp,s2 #clear the space for the tmp array
-
-    ld s0,0(sp)
-    ld s1,8(sp)
-    ld s2,16(sp)
-    addi sp,sp,24
     ret
 
 
-countingsort: #a2=n #a3=array address #a4=exp #a6=tmp array address (aka "output" array in comments)
+countingsort: #a2=n #a3=array address #a4=exp
     #int count[10] = {0}
     li t0,0     #i
     li t3,10    #n
@@ -150,6 +157,7 @@ endloop4:
 #   	count[ (arr[i]/exp)%10 ]--; 
 #   	output[count[ (arr[i]/exp)%10 ] ] = arr[i]; 
 #   } 
+    la a6,output
     addi t0,a2,-1 #i=n-1
 loop6:
     li t1,bytes
@@ -186,6 +194,7 @@ endloop6:
 #   for (i = 0; i < n; i++) 
 #		arr[i] = output[i]; 
     li t0,0 #i=0
+    la a6,output
 loop7:
     li t1,bytes
     mul t1,t0,t1 #offset from arr[0] to arr[i]
