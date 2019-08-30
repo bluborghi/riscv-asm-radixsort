@@ -41,7 +41,6 @@ loop3:
     mul t1,t0,t1 #offset from arr[0] to arr[i]
     add t2,a3,t1 #t2 = address of arr[i]
     lw t3,0(t2)  #t3 = arr[i]
-
     # count[ (arr[i]/exp)%10 ]++; 
     div t4,t3,a4
     li t1,10
@@ -54,10 +53,9 @@ loop3:
     addi t6,t6,1 #t6 = t6 + 1
     sw t6,0(t5)  #count[t4] = count[t4] + 1
 
-    addi t0,t0,1
-    blt t0,a2,loop3
+    addi t0,t0,1    #i++
+    blt t0,a2,loop3 #i<n
 endloop3:
-
 
 #for (i = 1; i < 10; i++) 
 #		count[i] += count[i - 1]; 

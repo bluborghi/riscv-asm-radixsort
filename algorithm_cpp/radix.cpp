@@ -25,26 +25,18 @@ void countSort(int arr[], int n, int exp)
 { 
 	int output[n]; // output array 
 	int i, count[10] = {0}; 
-
 	// Store count of occurrences in count[] 
 	for (i = 0; i < n; i++) 
 		count[ (arr[i]/exp)%10 ]++; 
-
-	print(count, 10); 
-	cout<<endl;
 	// Change count[i] so that count[i] now contains actual 
 	// position of this digit in output[] 
 	for (i = 1; i < 10; i++) 
 		count[i] += count[i - 1]; 
-	print(count, 10); 
-	cout<<endl;
 	// Build the output array 
-	for (i = n - 1; i >= 0; i--) 
-	{ 
-		output[count[ (arr[i]/exp)%10 ] - 1] = arr[i]; 
+	for (i = n - 1; i >= 0; i--) { 
 		count[ (arr[i]/exp)%10 ]--; 
+		output[ count[(arr[i]/exp)%10] ] = arr[i]; 
 	} 
-
 	// Copy the output array to arr[], so that arr[] now 
 	// contains sorted numbers according to current digit 
 	for (i = 0; i < n; i++) 
@@ -55,30 +47,17 @@ void countSort(int arr[], int n, int exp)
 // Radix Sort 
 void radixsort(int arr[], int n) 
 { 
-	// Find the maximum number to know number of digits 
-	int m = getMax(arr, n); 
+	// Find the maximum number 
+	// to know number of digits 
+	int max = getMax(arr, n); 
 
-	// Do counting sort for every digit. Note that instead 
-	// of passing digit number, exp is passed. exp is 10^i 
+	// Do counting sort for every digit.
+	// Note that instead of passing digit
+	// number, exp is passed. exp is 10^i 
 	// where i is current digit number 
-	for (int exp = 1; m >= exp; exp *= 10) 
+	for (int exp = 1; max >= exp; exp *= 10) 
 		countSort(arr, n, exp); 
-} 
-
-void radixsort_debug(int arr[], int n) 
-{ 
-	// Find the maximum number to know number of digits 
-	int m = getMax(arr, n); 
-
-	// Do counting sort for every digit. Note that instead 
-	// of passing digit number, exp is passed. exp is 10^i 
-	// where i is current digit number 
-	for (int exp = 1; m >= exp; exp *= 10) {
-		cout<<"exp="<<exp<<"\t\tmax="<<m<<"    "<<endl;
-		countSort(arr, n, exp); 
-	}
-} 
-
+}
 
 // Driver program to test above functions 
 int main() 

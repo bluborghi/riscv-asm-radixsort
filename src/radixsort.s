@@ -10,13 +10,12 @@ radixsort:  #a2=n #a3=input array address
     ld ra,0(sp)
     addi sp,sp,+8 
     
-    #for (int exp = 1; max >= exp; exp *= 10) 
-	#	countSort(arr, n, exp); 
     addi sp,sp,-16
     sd s0,0(sp)
     sd s1,8(sp)
-
-    
+  
+    #for (int exp = 1; max >= exp; exp *= 10) 
+	#	countSort(arr, n, exp); 
     addi s0,a0,0    #s0 = max
     li s1,1         #s1 = exp
 loop2:
@@ -32,9 +31,8 @@ loop2:
     mul s1,s1,t0
     bge s0,s1,loop2    
 endloop2:
-
-   
     ld s0,0(sp)
     ld s1,8(sp)
     addi sp,sp,16
-    ret
+ret
+

@@ -1,4 +1,4 @@
-cd src
+cd ./src
 riscv64-unknown-elf-as -g -o main.o main.s
 riscv64-unknown-elf-as -g -o radixsort.o radixsort.s
 riscv64-unknown-elf-as -g -o countingsort.o countingsort.s
